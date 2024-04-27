@@ -13,8 +13,9 @@ def result():
 
     if sentence:
         # Construct the command
-        command = ["python", "pages/model/inference.py", "--text", f"'{sentence}'", "-l", "te", "-s"]
-        
+        command = ["python3", "pages/model/inference.py", "--text", sentence, "-l", "te"]
+        print(command)
+        print(sentence)
         # Run the command
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
