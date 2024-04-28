@@ -3,13 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input</title>
+    <title>English to Telugu Translator</title>
+    <!-- Add favicon -->
+    <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/164014522?s=400&u=d7905abd1da329af3950cf8b9ba0f8641ab6e362&v=4">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            height: 5vh;
+            font-size: large;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        #output {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-size: large;
+        }
+        #loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #logo {
+            margin: 0 auto;
+            height: 50px;
+            width: 50px;
+        }
+        #authors {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #authors-heading {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #authors-info {
+            font-size: 16px;
+        }
+        #copyright {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('form').submit(function(event){
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                // Show the loading spinner
+                $('#loading').show();
+
+                // Get the input sentence
+                var sentence = $('#sentence').val();
+
+                // Send the sentence to the server using AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: '/',
+                    data: { sentence: sentence },
+                    success: function(data){
+                        // Hide the loading spinner
+                        $('#loading').hide();
+
+                        // Filter out non-Telugu characters
+                        var teluguOnly = data.replace(/[^\u0C00-\u0C7F\s]/g, '');
+
+                        // Update the output section with the response
+                        $('#output').text(teluguOnly);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-    <form action="/result" method="post">
-        <label for="sentence">English text:</label><br>
-        <input type="text" id="sentence" name="sentence"><br><br>
-        <input type="submit" value="Submit">
+<div class="container">
+    <h1 style="text-align: center;">English to Telugu Translator <img id="logo" src="https://avatars.githubusercontent.com/u/164014522?s=400&u=d7905abd1da329af3950cf8b9ba0f8641ab6e362&v=4" alt="Logo"></h1>
+    <form action="" method="post">
+        <label for="sentence">Please type sentence here:</label><br>
+        <input type="text" id="sentence" name="sentence" autocomplete="off"><br><br>
+        <input type="submit" value="Translate">
     </form>
+    <div id="loading">
+        <div class="loader"></div>
+    </div>
+    <div id="output"></div>
+    <div id="copyright">
+        &copy; 2024 English to Telugu Translator
+        <p> KomalReddyK, JayanthReddyG, JnanaYasaswini, AkhilaBanothu</p>
+    </div>
+</div>
 </body>
 </html>
